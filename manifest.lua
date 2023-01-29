@@ -12,14 +12,16 @@ local app = {
    },
 
    audio = {
+      -- "music/song.raw"
    },
 
    scripts = {
+      -- the ROM expects main.lua as the entrypoint
       "main.lua",
    },
 
    misc = {
-
+      -- "data/example.txt
    }
 }
 

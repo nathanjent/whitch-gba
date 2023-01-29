@@ -1,3 +1,8 @@
+# MoonScript
+lint_config.lua
+main.lua
+
+# GBA ROM
 *.sav
 *.gba
 ~BPCoreEngine.gba
