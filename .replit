@@ -1,0 +1,9 @@
+compile = "make"
+run = "make run LUA=lua EMU=mgba"
+
+entrypoint = "main.moon"
+
+hidden = [ ".git*"]
+
+[nix]
+channel = "stable-21_11"

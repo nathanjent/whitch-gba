@@ -6,6 +6,7 @@
 --- rom, in the format required by the engine.
 ---
 ---
+bit32 = require "bit32"
 
 
 if _VERSION ~= "Lua 5.3" then

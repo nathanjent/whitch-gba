@@ -1,7 +1,7 @@
-LUA=lua5.3
-EMU=mgba-qt
-PROJ=NewProject
-ROM=${PROJ}.gba
+LUA ?= lua5.3
+EMU ?= mgba-qt
+PROJ ?= NewProject
+ROM = ${PROJ}.gba
 
 all: ${ROM}
 
