@@ -5,5 +5,7 @@
     lua53Packages.bit32
     lua53Packages.moonscript
     mgba
+    tiled
+    libresprite
 	];
 }

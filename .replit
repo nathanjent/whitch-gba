@@ -1,4 +1,4 @@
-compile = "make"
+compile = "make LUA=lua"
 run = "make run LUA=lua EMU=mgba"
 
 entrypoint = "main.moon"
