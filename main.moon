@@ -2,6 +2,8 @@ txtr 0, "overlay/overlay.bmp"
 txtr 2, "tiles/tilesheet.bmp"
 txtr 4, "sprites/spritesheet.bmp"
 
+tilemap "tilemaps/map_background.csv", 3, 32, 32
+
 runman = ent!
 entspr runman, 1
 entpos runman, 60,60

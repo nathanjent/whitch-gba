@@ -21,7 +21,10 @@ local app = {
    },
 
    misc = {
-      -- "data/example.txt
+      "tilemaps/map_overlay.csv",
+      "tilemaps/map_tile_1.csv",
+      "tilemaps/map_tile_0.csv",
+      "tilemaps/map_background.csv",
    }
 }
 

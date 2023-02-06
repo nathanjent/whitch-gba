@@ -5,7 +5,7 @@ ROM = ${PROJ}.gba
 
 all: ${ROM}
 
-${ROM}: build.lua BPCoreEngine.gba manifest.lua main.lua
+${ROM}: build.lua BPCoreEngine.gba manifest.lua *.lua **/*.bmp **/*.csv
 	@echo Building ROM...
 	${LUA} $<
 

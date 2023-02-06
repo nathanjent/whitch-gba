@@ -1,0 +1,39 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "",
+    "expandedProjectPaths": [
+    ],
+    "fileStates": {
+        "overlay.tmx": {
+            "scale": 4.5681640625,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 118.64722732908632,
+                "y": 128.16965240070118
+            }
+        }
+    },
+    "last.exportedFilePath": "/home/njent/git/whitch-gba/tilemaps",
+    "last.imagePath": "/home/njent/git/whitch-gba/sprites",
+    "map.height": 32,
+    "map.lastUsedExportFilter": "CSV files (*.csv)",
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 8,
+    "map.tileWidth": 8,
+    "map.width": 32,
+    "openFiles": [
+    ],
+    "project": "whitch.tiled-project",
+    "recentFiles": [
+        "overlay.tmx"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    },
+    "tileset.useTransparentColor": true
+}
