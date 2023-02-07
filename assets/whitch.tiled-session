@@ -7,6 +7,14 @@
     "expandedProjectPaths": [
     ],
     "fileStates": {
+        "map.tmx": {
+            "scale": 2.28408203125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 272.3194664158365,
+                "y": 271.22493479840955
+            }
+        },
         "overlay.tmx": {
             "scale": 4.5681640625,
             "selectedLayer": 0,
@@ -14,10 +22,23 @@
                 "x": 118.64722732908632,
                 "y": 128.16965240070118
             }
+        },
+        "overlay.tsx": {
+            "scaleInDock": 2,
+            "scaleInEditor": 1
+        },
+        "sprites.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "tiles.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         }
     },
     "last.exportedFilePath": "/home/njent/git/whitch-gba/tilemaps",
-    "last.imagePath": "/home/njent/git/whitch-gba/sprites",
+    "last.externalTilesetPath": "/home/njent/git/whitch-gba/assets",
+    "last.imagePath": "/home/njent/git/whitch-gba/tiles",
     "map.height": 32,
     "map.lastUsedExportFilter": "CSV files (*.csv)",
     "map.lastUsedFormat": "tmx",
@@ -28,12 +49,17 @@
     ],
     "project": "whitch.tiled-project",
     "recentFiles": [
+        "sprites.tsx",
+        "tiles.tsx",
+        "overlay.tsx",
+        "map.tmx",
         "overlay.tmx"
     ],
+    "tileset.lastUsedFilter": "Tiled tileset files (*.tsx *.xml)",
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
-        "height": 16,
-        "width": 16
+        "height": 8,
+        "width": 8
     },
     "tileset.useTransparentColor": true
 }

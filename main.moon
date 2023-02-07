@@ -1,16 +1,15 @@
-txtr 0, "overlay/overlay.bmp"
-txtr 2, "tiles/tilesheet.bmp"
-txtr 4, "sprites/spritesheet.bmp"
+init = ->
+  txtr 0, "overlay/overlay.bmp"
+  txtr 3, "tiles/tilesheet.bmp"
+  txtr 4, "sprites/spritesheet.bmp"
 
-tilemap "tilemaps/map_background.csv", 3, 32, 32
+  runman = ent!
+  entspr runman, 1
+  entpos runman, 60,60
+  flip_x = false
+  tilemap "tilemaps/map_background.csv", 3, 32, 32
 
-runman = ent!
-entspr runman, 1
-entpos runman, 60,60
-flip_x = false
-
-while true
-  -- update logic here:
+update = (dt) ->
   dvx,dvy = 0,0
   state = 'idle'
 
@@ -34,9 +33,13 @@ while true
   --if state == 'idle'
   --  entspr runman,0,flip_x
 
+draw = ->
+  print "Hello", 64, 64
+
+init!
+
+while true
+  update delta!
   clear!
-
-  -- graphics updates here:
-
-
+  draw!
   display!
