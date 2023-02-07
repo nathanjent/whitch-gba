@@ -1,13 +1,19 @@
-init = ->
-  txtr 0, "overlay/overlay.bmp"
-  txtr 3, "tiles/tilesheet.bmp"
-  txtr 4, "sprites/spritesheet.bmp"
+txtr 0, "overlay/overlay.bmp"
+txtr 3, "tiles/tilesheet.bmp"
+txtr 4, "sprites/spritesheet.bmp"
 
-  runman = ent!
-  entspr runman, 1
-  entpos runman, 60,60
-  flip_x = false
-  tilemap "tilemaps/map_background.csv", 3, 32, 32
+runman = ent!
+entspr runman, 1
+entpos runman, 60,60
+flip_x = false
+tilemap "tilemaps/map_background.csv", 3, 32, 32
+
+main_loop = (update, draw) ->
+  while true
+    update delta!
+    clear!
+    draw!
+    display!
 
 update = (dt) ->
   dvx,dvy = 0,0
@@ -36,10 +42,4 @@ update = (dt) ->
 draw = ->
   print "Hello", 64, 64
 
-init!
-
-while true
-  update delta!
-  clear!
-  draw!
-  display!
+main_loop update, draw
