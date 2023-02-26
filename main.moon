@@ -7,11 +7,12 @@ txtr 0, "overlay/overlay.bmp"
 txtr 2, "tiles/tilesheet.bmp"
 txtr 4, "sprites/spritesheet.bmp"
 
+SCR_W=240
+SCR_H=160
+
 cam = ent!
-runman = ent!
-entpos runman, 30, 30
-entspr runman, 1
-flip_x = false
+dan = ent!
+entspr dan, 1
 tilemap "tilemaps/map_background.csv", 2, 64, 64
 
 main_loop = (update, draw) ->
@@ -22,37 +23,36 @@ main_loop = (update, draw) ->
     display!
 
 update = (dt) ->
-  dvx,dvy = 0,0
-  state = 'idle'
+  dx,dy = 0,0
+
+  dan_x, dan_y = entpos dan
+  dan_spr, dan_flipx, dan_flipy = entspr dan
+  cam_x, cam_y = entpos cam
 
   if btn 4
-    dvx -= 1
-    flip_x = false
-    state = 'run'
-    entanim runman, 1, 3, 12
+    dx -= 1
+    dan_flipx = false
   if btn 5
-    dvx += 1
-    flip_x = true
-    state = 'run'
-    entanim runman, 1, 3, 12
+    dx += 1
+    dan_flipx = true
   if btn 6
-    dvy -= 1
+    dy -= 1
   if btn 7
-    dvy += 1
+    dy += 1
 
-  entspd runman, dvx, dvy
-  x,y = entpos runman
-  cam_x, cam_y = entpos cam
-  entpos cam,
-    math.min(64, lerp(cam_x, 64-x, 0.05)),
-    math.min(64, lerp(cam_y, 64-y, 0.05))
+  entpos cam, cam_x + dx, cam_y + dy
+    -- math.min(64, lerp(cam_x, x-10, 0.05)),
+    -- math.min(64, lerp(cam_y, y-30, 0.05))
 
-  --if state == 'idle'
-  --  entspr runman, 0, flip_x
+  entpos dan, dan_x + dx, dan_y + dy
+  entspr dan, 1, dan_flipx, dan_flipy
 
 draw = ->
-  print "Hello", 64, 64
   cam_x, cam_y = entpos cam
   camera cam_x, cam_y
+  print "cam x:#{cam_x} y:#{cam_y}", 0, 0
+
+  dan_x, dan_y = entpos dan
+  print "dan x:#{dan_x} y:#{dan_y}", 0, 1
 
 main_loop update, draw
