@@ -5,7 +5,7 @@
  </editorsettings>
  <tileset firstgid="1" source="tiles.tsx"/>
  <tileset firstgid="421" source="sprites.tsx"/>
- <tileset firstgid="445" source="overlay.tsx"/>
+ <tileset firstgid="453" source="overlay.tsx"/>
  <layer id="4" name="background" width="64" height="64">
   <data encoding="csv">
 3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,
