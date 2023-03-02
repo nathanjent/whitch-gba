@@ -118,7 +118,7 @@ update = (dt) ->
     entslot dan, Slot.STATE, State.IDLE
 
   if State.IDLE == entslot dan, Slot.STATE
-      cur_frame_prev = 1
+      cur_frame_prev = 5
 
   if State.JUMP == entslot dan, Slot.STATE
       cur_frame_prev = 1
