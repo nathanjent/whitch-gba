@@ -26,7 +26,7 @@ Slot=
 State=
     IDLE:1
     RUN:2
-	JUMP:3
+    JUMP:3
 
 -- entity tags
 Tag=
@@ -82,17 +82,19 @@ update = (dt) ->
   vy_prev = entslot dan, Slot.VEL_Y
   vx, vy = vx_prev, vy_prev
   x_prev, y_prev = entpos dan
-  cur_frame_prev, flipx_prev, flipy_prev = entspr dan
+  cur_frame_prev, flipx, flipy = entspr dan
   cam_x, cam_y = entpos cam
 
   if vx_prev > -vx_max and btn Key.LEFT
     vx -= acc_x
-    flipx_prev = false
-    entslot dan, Slot.STATE, State.RUN
+    flipx = false
+    if State.IDLE == entslot dan, Slot.STATE
+      entslot dan, Slot.STATE, State.RUN
   if vx_prev < vx_max and btn Key.RIGHT
     vx += acc_x
-    flipx_prev = true
-    entslot dan, Slot.STATE, State.RUN
+    flipx = true
+    if State.IDLE == entslot dan, Slot.STATE
+      entslot dan, Slot.STATE, State.RUN
   if vx == vx_prev
     if vx_prev > 0.5
       vx -= acc_x / 2
@@ -101,17 +103,25 @@ update = (dt) ->
     else
       vx = 0
 
-  if ecolt dan,Tag.GROUND
+  if ecolt dan, Tag.GROUND
     vy = 0
+    if State.JUMP == entslot dan, Slot.STATE
+      entslot dan, Slot.STATE, State.IDLE
   else
     vy += acc_y
-
-  if vy == 0 and btn Key.B
+    
+  if vy == 0 and btn(Key.B) and State.JUMP != entslot dan, Slot.STATE
     vy = -vy_max
-	entslot dan, Slot.STATE, State.JUMP
+    entslot dan, Slot.STATE, State.JUMP
 
   if vx == 0 and vy == 0
     entslot dan, Slot.STATE, State.IDLE
+
+  if State.IDLE == entslot dan, Slot.STATE
+      cur_frame_prev = 1
+
+  if State.JUMP == entslot dan, Slot.STATE
+      cur_frame_prev = 1
 
   entslot dan, Slot.VEL_X, vx
   entslot dan, Slot.VEL_Y, vy
@@ -120,11 +130,11 @@ update = (dt) ->
   -- animation
   if t >= entslot(dan, Slot.NEXT_FRAME) and entslot(dan, Slot.STATE) == State.RUN
     cur_frame_prev += 1
-    entslot dan, Slot.NEXT_FRAME, t + 12
+    entslot dan, Slot.NEXT_FRAME, t + 6
     if cur_frame_prev > 3
       cur_frame_prev = 1
 
-  entspr dan, cur_frame_prev, flipx_prev, flipy_prev
+  entspr dan, cur_frame_prev, flipx, flipy
 
   entpos cam, cam_x, cam_y
     -- math.min(64, lerp(cam_x, x-10, 0.05)),
