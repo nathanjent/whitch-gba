@@ -1,16 +1,17 @@
 SCRN_W=240
 SCRN_H=160
+
 Key=
     A:0
     B:1
-    L:8
-    R:9
     START:2
     SELECT:3
     LEFT:4
     RIGHT:5
     UP:6
     DOWN:7
+    L:8
+    R:9
 
 Slot=
     STATE:1
@@ -25,7 +26,9 @@ Slot=
 State=
     IDLE:1
     RUN:2
+	JUMP:3
 
+-- entity tags
 Tag=
   GROUND:1
 
@@ -49,17 +52,15 @@ entslot dan, Slot.NEXT_FRAME, 0
 entslot dan, Slot.STATE, State.IDLE
 entslot dan, Slot.VEL_X, 0
 entslot dan, Slot.VEL_Y, 0
-entslot dan, Slot.VEL_X_MAX, 5
-entslot dan, Slot.VEL_Y_MAX, 3
-entslot dan, Slot.ACC_X, 1
-entslot dan, Slot.ACC_Y, 1
+entslot dan, Slot.VEL_X_MAX, 2
+entslot dan, Slot.VEL_Y_MAX, 5
+entslot dan, Slot.ACC_X, 0.5
+entslot dan, Slot.ACC_Y, 0.8
 entspr dan, 1
-enthb dan
 
 ground = ent!
 enthb ground, 0, 0, 240, 16
-entpos ground, SCRN_W/2, 100
-entspr ground, 1
+entpos ground, -SCRN_W / 2, 50
 entag ground, Tag.GROUND
 
 main_loop = (update, draw) ->
@@ -72,29 +73,31 @@ main_loop = (update, draw) ->
 update = (dt) ->
   t += 1
 
+  -- physics
   vx_max = entslot dan, Slot.VEL_X_MAX
+  vy_max = entslot dan, Slot.VEL_Y_MAX
   acc_x = entslot dan, Slot.ACC_X
   acc_y = entslot dan, Slot.ACC_Y
   vx_prev = entslot dan, Slot.VEL_X
   vy_prev = entslot dan, Slot.VEL_Y
-  vx,vy = vx_prev,vy_prev
+  vx, vy = vx_prev, vy_prev
   x_prev, y_prev = entpos dan
   cur_frame_prev, flipx_prev, flipy_prev = entspr dan
   cam_x, cam_y = entpos cam
 
   if vx_prev > -vx_max and btn Key.LEFT
     vx -= acc_x
-    dan_flipx = false
+    flipx_prev = false
     entslot dan, Slot.STATE, State.RUN
   if vx_prev < vx_max and btn Key.RIGHT
     vx += acc_x
-    dan_flipx = true
+    flipx_prev = true
     entslot dan, Slot.STATE, State.RUN
   if vx == vx_prev
-    if vx_prev > vx_max
-      vx -= acc_x
-    else if vx_prev < vx_max
-      vx += acc_x
+    if vx_prev > 0.5
+      vx -= acc_x / 2
+    else if vx_prev < -0.5
+      vx += acc_x / 2
     else
       vx = 0
 
@@ -103,32 +106,40 @@ update = (dt) ->
   else
     vy += acc_y
 
+  if vy == 0 and btn Key.B
+    vy = -vy_max
+	entslot dan, Slot.STATE, State.JUMP
+
   if vx == 0 and vy == 0
     entslot dan, Slot.STATE, State.IDLE
 
   entslot dan, Slot.VEL_X, vx
   entslot dan, Slot.VEL_Y, vy
   entspd dan, vx, vy
-  entspr dan, dan_cur_frame, dan_flipx
 
-  if t >= entslot(dan, Slot.NEXT_FRAME) and "run" == entslot(dan, Slot.STATE)
-    dan_cur_frame += 1
+  -- animation
+  if t >= entslot(dan, Slot.NEXT_FRAME) and entslot(dan, Slot.STATE) == State.RUN
+    cur_frame_prev += 1
     entslot dan, Slot.NEXT_FRAME, t + 12
-    if dan_cur_frame > 3
-      dan_cur_frame = 1
+    if cur_frame_prev > 3
+      cur_frame_prev = 1
+
+  entspr dan, cur_frame_prev, flipx_prev, flipy_prev
 
   entpos cam, cam_x, cam_y
     -- math.min(64, lerp(cam_x, x-10, 0.05)),
     -- math.min(64, lerp(cam_y, y-30, 0.05))
 
 draw = ->
-  print "t:#{t}"
   cam_x, cam_y = entpos cam
   camera cam_x, cam_y
-  print "cam x:#{cam_x} y:#{cam_y}", 0, 1
+  print "cam x:#{cam_x} y:#{cam_y}"
 
   dan_x, dan_y = entpos dan
-  print "dan x:#{dan_x} y:#{dan_y} state:#{entslot(dan, Slot.STATE)}", 0, 2
+  print "dan x:#{dan_x} y:#{dan_y} state:#{entslot(dan, Slot.STATE)}", 0, 1
+  vx_prev = entslot dan, Slot.VEL_X
+  vy_prev = entslot dan, Slot.VEL_Y
+  print "dan vx:#{vx_prev} vy:#{vy_prev}", 0, 2
 
 main_loop update, draw
 
