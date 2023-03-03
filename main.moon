@@ -63,6 +63,15 @@ enthb ground, 0, 0, 240, 16
 entpos ground, -SCRN_W / 2, 50
 entag ground, Tag.GROUND
 
+is_state = (e, s) -> s == entslot e, Slot.STATE
+set_state = (e, s) -> entslot e, Slot.STATE, s
+is_jumping = (e) -> is_state e, State.JUMP
+is_running = (e) -> is_state e, State.RUN
+is_idle = (e) -> is_state e, State.IDLE
+set_jumping = (e) -> set_state e, State.JUMP
+set_running = (e) -> set_state e, State.RUN
+set_idle = (e) -> set_state e, State.IDLE
+
 main_loop = (update, draw) ->
   while true
     update delta!
@@ -88,13 +97,13 @@ update = (dt) ->
   if vx_prev > -vx_max and btn Key.LEFT
     vx -= acc_x
     flipx = false
-    if State.IDLE == entslot dan, Slot.STATE
-      entslot dan, Slot.STATE, State.RUN
+    if is_idle dan
+      set_running dan
   if vx_prev < vx_max and btn Key.RIGHT
     vx += acc_x
     flipx = true
-    if State.IDLE == entslot dan, Slot.STATE
-      entslot dan, Slot.STATE, State.RUN
+    if is_idle dan
+      set_running dan
   if vx == vx_prev
     if vx_prev > 0.5
       vx -= acc_x / 2
@@ -103,24 +112,24 @@ update = (dt) ->
     else
       vx = 0
 
+  if vy == 0 and btn(Key.B) and not is_jumping(dan)
+    vy = -vy_max
+    set_jumping dan
+
   if ecolt dan, Tag.GROUND
     vy = 0
-    if State.JUMP == entslot dan, Slot.STATE
-      entslot dan, Slot.STATE, State.IDLE
+    if is_jumping dan
+      set_idle dan
   else
     vy += acc_y
     
-  if vy == 0 and btn(Key.B) and State.JUMP != entslot dan, Slot.STATE
-    vy = -vy_max
-    entslot dan, Slot.STATE, State.JUMP
-
   if vx == 0 and vy == 0
-    entslot dan, Slot.STATE, State.IDLE
+    set_idle dan
 
-  if State.IDLE == entslot dan, Slot.STATE
+  if is_idle dan
       cur_frame_prev = 5
 
-  if State.JUMP == entslot dan, Slot.STATE
+  if is_jumping dan
       cur_frame_prev = 1
 
   entslot dan, Slot.VEL_X, vx
@@ -128,7 +137,7 @@ update = (dt) ->
   entspd dan, vx, vy
 
   -- animation
-  if t >= entslot(dan, Slot.NEXT_FRAME) and entslot(dan, Slot.STATE) == State.RUN
+  if t >= entslot(dan, Slot.NEXT_FRAME) and is_running dan
     cur_frame_prev += 1
     entslot dan, Slot.NEXT_FRAME, t + 6
     if cur_frame_prev > 3
@@ -146,10 +155,11 @@ draw = ->
   print "cam x:#{cam_x} y:#{cam_y}"
 
   dan_x, dan_y = entpos dan
-  print "dan x:#{dan_x} y:#{dan_y} state:#{entslot(dan, Slot.STATE)}", 0, 1
+  print "dan x:#{dan_x} y:#{dan_y}", 0, 1
+  print "state:#{entslot(dan, Slot.STATE)}", 0, 2
   vx_prev = entslot dan, Slot.VEL_X
   vy_prev = entslot dan, Slot.VEL_Y
-  print "dan vx:#{vx_prev} vy:#{vy_prev}", 0, 2
+  print "dan vx:#{vx_prev} vy:#{vy_prev}", 0, 3
 
 main_loop update, draw
 
