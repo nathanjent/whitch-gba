@@ -79,6 +79,11 @@ main_loop = (update, draw) ->
     draw!
     display!
 
+-- map collision is planned feature
+if not ecolm
+  export ecolm = (entity, layer, tile_id) ->
+    false
+
 update = (dt) ->
   t += 1
 
@@ -116,6 +121,10 @@ update = (dt) ->
     vy = -vy_max
     set_jumping dan
 
+  if ecolm dan, 2, 1
+    vy = 0
+    vx = 0
+    
   if ecolt dan, Tag.GROUND
     vy = 0
     if is_jumping dan
