@@ -117,9 +117,6 @@ update = (dt) ->
     else
       vx = 0
 
-  if vy == 0 and btn(Key.B) and not is_jumping(dan)
-    vy = -vy_max
-    set_jumping dan
 
   if ecolm dan, 2, 1
     vy = 0
@@ -129,6 +126,9 @@ update = (dt) ->
     vy = 0
     if is_jumping dan
       set_idle dan
+    else if vy == 0 and btn(Key.B) and not is_jumping(dan)
+      vy = -vy_max
+      set_jumping dan
   else
     vy += acc_y
     
